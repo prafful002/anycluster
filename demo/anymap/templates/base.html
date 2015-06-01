@@ -1,23 +1,24 @@
 {% load staticfiles %}
 <html>
 	<head>
-		<script type="text/javascript" src="{% static 'anycluster/OpenLayers.js' %}"></script>
+		
 		<script type="text/javascript"
 			  src="https://maps.googleapis.com/maps/api/js?v=3.8&key=AIzaSyC7zFb7ymHd59HbHYcAld46OcF93OkjD9s&sensor=false">
 		</script>
 		<script type="text/javascript" src="{% static 'anycluster/anycluster.js' %}"></script>
 		<script type="text/javascript" src="{% static 'anycluster/django_ajax_csrf.js' %}"></script>
-		<script type="text/javascript" src="{% static 'anycluster/infobox_packed.js' %}"></script>
-		<script type="text/javascript" src="{% static 'anycluster/markerwithlabel_packed.js' %}"></script>
+		<script type="text/javascript" src="{% static 'anycluster/anycluster_marker.js' %}"></script>
+		<link rel="stylesheet" href="{% static 'anycluster/anycluster.css' %}">
+
 		<script type="text/javascript">
 		
 		
 			var anyclusterSettings = {
 				mapType : "google", // "google" or "osm"
 				gridSize: 256, //integer
-				zoom: 3, //initial zoom
-				center: [49,11], //initial center in lng lat
-				MapTypeId: "TERRAIN", //google only - choose from  ROADMAP,SATELLITE,HYBRID or TERRAIN
+				zoom: 11, //initial zoom
+				center: [12.9762300, 77.6032900], //initial center in lng lat
+				MapTypeId: google.maps.MapTypeId.TERRAIN, //google only - choose from  ROADMAP,SATELLITE,HYBRID or TERRAIN
 				clusterMethod : "kmeans", //"grid" or "kmeans" or "centroid"
 				iconType: "exact", //"exact" (with exact cluster counts) or "simple" (with rounded counts) 
 				singlePinImages: {
@@ -36,7 +37,7 @@
 			var anyclusterSettings_osm = {
 				mapType : "osm", // "google" or "osm"
 				gridSize: 256, //integer
-				zoom: 3, //initial zoom
+				zoom: 11, //initial zoom
 				center: [49,11], //initial center in lng lat
 				clusterMethod : "kmeans", //"grid" or "kmeans" or "centroid"
 				iconType: "simple", //"exact" (with exact cluster counts) or "simple" (with rounded counts) 
@@ -114,8 +115,8 @@
 		
 	</head>
 	<body>
-		<div id="osmap" style="width:600px; height:300px; border: 1px solid black"></div>
-		<div id="gmap" style="width:600px; height:300px; border: 1px solid black"></div>
+	<!--	<div id="osmap" style="width:600px; height:300px; border: 1px solid black"></div> --> 
+	 	<div id="gmap" style="width:600px; height:300px; border: 1px solid black"></div> 
 		<div id="clustererPopup" style="border:2px solid black; position: absolute; left:30%;top:50%; background-color: #aaa; border-radius:10px; padding: 10px; display:none;">
 			<div id="clusterContentPopup"></div>
 			<div style="text-align:center; margin-top: 20px;"><button onclick="closePopup();">close</button></div>

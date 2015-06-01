@@ -21,9 +21,9 @@ var markerImageSizes = {
 
 var Anycluster = function(mapdiv_id, settings_, mapInitCallback){
 
-
-	if (typeof mapInitCallback === "function") {
-		google.maps.event.addDomListener(window, 'load', mapInitCallback);
+		console.log('map init');
+	if (typeof mapInitCallback === "function") { console.log('mapInitCallback');
+		google.maps.event.addDomListener(window, 'load', initialize());
 	}
 
 
@@ -38,9 +38,10 @@ var Anycluster = function(mapdiv_id, settings_, mapInitCallback){
 	this.clearMarkers = false;
 	
 	if (this.mapType == "google"){
-	
+		console.log(this.mapType);
 		this.setMap = function(lng,lat){
-		
+			console.log('setMap');		
+			
 			var zoom = clusterer.gmap.getZoom();
 			zoom = zoom + 3;
 			clusterer.zoom = zoom;
@@ -51,7 +52,7 @@ var Anycluster = function(mapdiv_id, settings_, mapInitCallback){
 		}
 	
 		this.drawMarker = function(cluster){
-		
+			console.log('drawMarker');		
 			var center = new google.maps.LatLng(cluster['center']['y'], cluster['center']['x']);
 			var count = cluster['count'];
 			var pinimg = cluster['pinimg'];
@@ -89,7 +90,7 @@ var Anycluster = function(mapdiv_id, settings_, mapInitCallback){
 		}
 		
 		this.drawMarkerExactCount = function(cluster){
-		
+			console.log('drawMarkerExactocunt');
 			var center = new google.maps.LatLng(cluster['center']['y'], cluster['center']['x']);
 			var count = cluster['count'];
 			var pinimg = cluster['pinimg'];
@@ -145,11 +146,13 @@ var Anycluster = function(mapdiv_id, settings_, mapInitCallback){
 		},
 
 		this.getZoom = function(){
+			console.log('getZoom');
 			return clusterer.gmap.getZoom();
 		},
 	
 		this.cluster = function(cache, clusteredCB){
 
+			console.log('cluster');
 			if (clusterer.clusterArea == false){
 				var viewport_json = this.getViewport();	
 				var geoJson = this.viewportToGeoJson(viewport_json);
@@ -171,6 +174,7 @@ var Anycluster = function(mapdiv_id, settings_, mapInitCallback){
 
 		this.startClustering = function(){
 			var firstLoad = true;
+			console.log('startClustering');
 			google.maps.event.addListener(clusterer.gmap, 'idle', function() {
 				
 				if (firstLoad === true){
@@ -224,7 +228,7 @@ var Anycluster = function(mapdiv_id, settings_, mapInitCallback){
 		}
 	
 		this.drawMarker = function(cluster){
-		
+			console.log('drawMarker2');		
 			var center = new OpenLayers.LonLat(cluster['center']['x'], cluster['center']['y']).transform(
 				new OpenLayers.Projection("EPSG:4326"),
 				clusterer.omap.getProjectionObject()
@@ -453,7 +457,7 @@ Anycluster.prototype = {
 		var clusterer = this;
 	
 		this.loadStart();
-		
+		console.log(clusterer.clusterMethod,this.zoom,this.gridSize);
 		var url = this.baseURL + this.clusterMethod + '/' + this.zoom + '/' + this.gridSize + '/'; // + urlParams;
 
 		postParams = {
@@ -467,11 +471,11 @@ Anycluster.prototype = {
 		}
 		
 		//send the ajax request
-		url = encodeURI(url);
+		//url = encodeURI(url);
 		var xhr = new XMLHttpRequest();
 		
 		xhr.onreadystatechange = function(){
-			if (xhr.readyState==4 && xhr.status==200) {
+				if (xhr.readyState==4 && xhr.status==200) {
 
 
 				if (clusterer.clearMarkers == true){
@@ -484,7 +488,7 @@ Anycluster.prototype = {
 				if (clusterer.clusterMethod == 'grid'){
 					var clusterFunction = clusterer.drawCell;
 				}
-				else if (clusterer.clusterMethod == 'kmeans'){
+				else if (clusterer.clusterMethod == 'kmeans'){ console.log('kmain');
 					if (clusterer.iconType == "simple"){
 						var clusterFunction = clusterer.drawMarker;
 					}
@@ -568,7 +572,7 @@ Anycluster.prototype = {
 	getViewportContent : function(gotViewportContent){
 		var viewport_json = this.getViewport();
 		var geoJson = this.viewportToGeoJson(viewport_json);
-		
+		console.log('getViewportContent');
 		this.getAreaContent(geoJson, gotViewportContent);
 		
 	},
@@ -576,7 +580,7 @@ Anycluster.prototype = {
 	getAreaContent : function(geoJson, gotAreaContent){
 
 		this.zoom = this.getZoom();
-
+		console.log('getAreaContent');
 		var postParams = {
 			"geojson":geoJson,
 			"filters":this.filters

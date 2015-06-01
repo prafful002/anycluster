@@ -14,7 +14,7 @@ import random
 
 class Command(BaseCommand):
 
-    def handle(self, markerAmount, *args, **options):
+    def handle(self, markerAmount=50000, *args, **options):
 
         markerAmount = int(markerAmount)
 

@@ -20,18 +20,19 @@ def getGrid(request, zoom, gridSize=256):
     clusterer = MapClusterer(zoom, gridSize)
 
     grid = clusterer.gridCluster(request)
-    
+    print 'getGrid'
     return HttpResponse(json.dumps(
         grid
         ), content_type="application/json")
 
 
 def getPins(request, zoom, gridSize):
-
+    print 'getPins'
     clusterer = MapClusterer(zoom, gridSize)
 
     markers = clusterer.kmeansCluster(request)
     
+   
     return HttpResponse(json.dumps(
         markers
         ), content_type="application/json")
@@ -42,7 +43,7 @@ def getClusterContent(request, zoom, gridSize):
     clusterer = MapClusterer(zoom, gridSize)
 
     entries = clusterer.getKmeansClusterContent(request)
-
+    print 'getClusterContent'
     return render(request, 'anycluster/clusterPopup.html', {'entries':entries})
 
 
@@ -64,12 +65,12 @@ def loadAreaContent(request, zoom=1, gridSize=256):
         '''SELECT * FROM "%s" WHERE %s %s;''' % (geo_table, geomfilterstring, filterstring)
     )
     
-
+    print 'loadAreaContent'
     return markers_qryset
     
 
 def getAreaContent(request, zoom, gridSize):
 
     markers = loadAreaContent(request, zoom, gridSize)
-
+    print 'getAreaContent'
     return render(request, 'anycluster/clusterPopup.html', {'entries':markers})
